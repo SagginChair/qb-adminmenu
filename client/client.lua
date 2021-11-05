@@ -76,6 +76,18 @@ local menu_button8 = menu2:AddCheckbox({
     value = menu2,
     description = 'Enable/Disable God Mode'
 })
+local names_button = menu2:AddCheckbox({
+    icon = '📋',
+    label = 'Names',
+    value = menu2,
+    description = 'Enable/Disable Names overhead'
+})
+local blips_button = menu2:AddCheckbox({
+    icon = '📍',
+    label = 'Blips',
+    value = menu2,
+    description = 'Enable/Disable Blips for players in maps'
+})
 local menu_button11 = menu5:AddButton({
     icon = '🌡️',
     label = 'Weather Options',
@@ -295,11 +307,17 @@ local menu_button69 = menu:AddButton({
     value = menu11,
     description = 'Misc. Dev Options'
 })
-local coords_button = menu11:AddButton({
+local coords3_button = menu11:AddButton({
     icon = '📋',
-    label = 'Copy Coords',
+    label = 'Copy vector3',
     value = 'coords',
-    description = 'Copy Coords To Clipboard'
+    description = 'Copy vector3 To Clipboard'
+})
+local coords4_button = menu11:AddButton({
+    icon = '📋',
+    label = 'Copy vector4',
+    value = 'coords',
+    description = 'Copy vector4 To Clipboard'
 })
 local togglecoords_button = menu11:AddCheckbox({
     icon = '📍',
@@ -333,18 +351,6 @@ local noclip_button = menu11:AddCheckbox({
     value = menu11,
     description = 'Enable/Disable NoClip'
 })
-local names_button = menu11:AddCheckbox({               
-    icon = '📋',                                        
-    label = 'Names',                                    
-    value = menu11,                               
-    description = 'Enable/Disable Names overhead'   
-})                                               
-local blips_button = menu11:AddCheckbox({     
-    icon = '📍',                             
-    label = 'Blips',                                    
-    value = menu11,                                     
-    description = 'Enable/Disable Blips for players'    
-}) 
 
 local menu12_button1 = menu12:AddButton({
     icon = '🚗',
@@ -382,13 +388,24 @@ end
 
 local function CopyToClipboard(dataType)
     local ped = PlayerPedId()
-    if dataType == 'coords' then
+    if dataType == 'coords3' then
         local coords = GetEntityCoords(ped)
         local x = round(coords.x, 2)
         local y = round(coords.y, 2)
         local z = round(coords.z, 2)
         SendNUIMessage({
             string = string.format('vector3(%s, %s, %s)', x, y, z)
+        })
+        QBCore.Functions.Notify("Coordinates copied to clipboard!", "success")
+    elseif dataType == 'coords4' then
+        local coords = GetEntityCoords(ped)
+        local x = round(coords.x, 2)
+        local y = round(coords.y, 2)
+        local z = round(coords.z, 2)
+        local heading = GetEntityHeading(ped)
+        local h = round(heading, 2)
+        SendNUIMessage({
+            string = string.format('vector4(%s, %s, %s, %s)', x, y, z, h)
         })
         QBCore.Functions.Notify("Coordinates copied to clipboard!", "success")
     elseif dataType == 'heading' then
@@ -433,6 +450,10 @@ local function ToggleShowCoordinates()
     end)
 end
 
+RegisterNetEvent('qb-admin:client:ToggleCoords', function()
+    ToggleShowCoordinates()
+end)
+
 local function ToggleVehicleDeveloperMode()
     local x = 0.4
     local y = 0.888
@@ -457,8 +478,12 @@ local function ToggleVehicleDeveloperMode()
     end)
 end
 
-coords_button:On("select", function()
-    CopyToClipboard('coords')
+coords3_button:On("select", function()
+    CopyToClipboard('coords3')
+end)
+
+coords4_button:On("select", function()
+    CopyToClipboard('coords4')
 end)
 
 heading_button:On("select", function()
@@ -530,10 +555,10 @@ menu12_button4:On('Select', function(item)
     TriggerServerEvent('QBCore:CallCommand', "dv", {})
 end)
 
-names_button:On('change', function()           
+names_button:On('change', function()
     TriggerEvent('qb-admin:client:toggleNames')
-end)                                           
-blips_button:On('change', function()           
+end)
+blips_button:On('change', function()
     TriggerEvent('qb-admin:client:toggleBlips')
 end)
 
@@ -582,7 +607,7 @@ menu_button4:On('Select', function(item)
     QBCore.Functions.TriggerCallback('test:getdealers', function(dealers)
         for k, v in pairs(dealers) do
             local menu_button10 = menu7:AddButton({
-                label = v["name"], --.. ' | ' .. v[time.min] .. ' | ' .. v[time.max]
+                label = v["name"],
                 value = v,
                 description = 'Dealer Name',
                 select = function(btn)
@@ -623,13 +648,13 @@ local function OpenPermsMenu(permsply)
                     local vcal = newValue
                     if vcal == 1 then
                         selectedgroup = {}
-                        table.insert(selectedgroup, {rank = "user", label = "User"})
+                        selectedgroup[#selectedgroup+1] = {rank = "user", label = "User"}
                     elseif vcal == 2 then
                         selectedgroup = {}
-                        table.insert(selectedgroup, {rank = "admin", label = "Admin"})
+                        selectedgroup[#selectedgroup+1] = {rank = "admin", label = "Admin"}
                     elseif vcal == 3 then
                         selectedgroup = {}
-                        table.insert(selectedgroup, {rank = "god", label = "God"})
+                        selectedgroup[#selectedgroup+1] = {rank = "god", label = "God"}
                     end
                 end
             })
