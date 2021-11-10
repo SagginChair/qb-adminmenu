@@ -636,6 +636,26 @@ local function OpenPermsMenu(permsply)
                     value = 'user',
                     description = 'Group'
                 }, {
+                    label = 'Bronze',
+                    value = 'user',
+                    description = 'Group'
+                }, {
+                    label = 'Silver',
+                    value = 'user',
+                    description = 'Group'
+                }, {
+                    label = 'Gold',
+                    value = 'user',
+                    description = 'Group'
+                }, {
+                    label = 'Diamond',
+                    value = 'user',
+                    description = 'Group'
+                }, {
+                    label = 'Platinum',
+                    value = 'user',
+                    description = 'Group'
+                }, {
                     label = 'Admin',
                     value = 'admin',
                     description = 'Group'
@@ -651,8 +671,23 @@ local function OpenPermsMenu(permsply)
                         selectedgroup[#selectedgroup+1] = {rank = "user", label = "User"}
                     elseif vcal == 2 then
                         selectedgroup = {}
-                        selectedgroup[#selectedgroup+1] = {rank = "admin", label = "Admin"}
+                        selectedgroup[#selectedgroup+1] = {rank = "bronze", label = "Bronze"}
                     elseif vcal == 3 then
+                        selectedgroup = {}
+                        selectedgroup[#selectedgroup+1] = {rank = "silver", label = "Silver"}
+                    elseif vcal == 4 then
+                        selectedgroup = {}
+                        selectedgroup[#selectedgroup+1] = {rank = "gold", label = "Gold"}
+                    elseif vcal == 5 then
+                        selectedgroup = {}
+                        selectedgroup[#selectedgroup+1] = {rank = "diamond", label = "Diamond"}
+                    elseif vcal == 6 then
+                        selectedgroup = {}
+                        selectedgroup[#selectedgroup+1] = {rank = "platinum", label = "Platinum"}
+                    elseif vcal == 7 then
+                        selectedgroup = {}
+                        selectedgroup[#selectedgroup+1] = {rank = "admin", label = "Admin"}
+                    elseif vcal == 8 then
                         selectedgroup = {}
                         selectedgroup[#selectedgroup+1] = {rank = "god", label = "God"}
                     end
