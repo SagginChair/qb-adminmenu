@@ -264,7 +264,7 @@ end, 'admin')
 QBCore.Commands.Add('admincar', 'Save Vehicle To Your Garage (Admin Only)', {}, false, function(source, args)
     local ply = QBCore.Functions.GetPlayer(source)
     TriggerClientEvent('qb-admin:client:SaveCar', source)
-end, 'admin')
+end, 'god')
 
 QBCore.Commands.Add('announce', 'Make An Announcement (Admin Only)', {}, false, function(source, args)
     local msg = table.concat(args, ' ')
